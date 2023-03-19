@@ -16,7 +16,7 @@ How to get data from a service using combine
       
       return URLSession.shared.dataTaskPublisher(for: url).map { $0.data }
       .decode(type: [Post].self, decoder: JSONDecoder())
-      .receive(on: RunLoop.main)
+      .receive(on: RunLoop.main) /// Get the values on the main thread
       .eraseToAnyPublisher()
         
     }
