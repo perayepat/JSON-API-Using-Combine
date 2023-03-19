@@ -22,3 +22,47 @@ How to get data from a service using combine
     }
 ```
 
+Using it in a tableview controller in UIkit
+
+``` swift 
+class PostListTableViewController: UITableViewController {
+    
+    private var webservice = Webservice()
+    private var cancellable: AnyCancellable? /// Also called a subscription will only live as long as this view controller is alive
+    
+    private var posts = [Post]() {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        /// Getting a hold of the publisher and assigning it to somewhere using the cancallable
+        self.cancellable = self.webservice.getPosts()
+            .catch { _ in Just(self.posts)} /// Catching the errors
+            .assign(to: \.posts, on: self)
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.posts.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
+
+        let post = self.posts[indexPath.row]
+        cell.textLabel?.text = post.title
+        
+        return cell
+    }
+    
+}
+
+```
