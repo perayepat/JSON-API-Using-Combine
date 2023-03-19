@@ -6,6 +6,7 @@ how to to consume json data using combine
 
 This example code will return a string of the post data
 
+```
 struct Post: Codable{
     let title: String
     let body: String
@@ -24,5 +25,5 @@ func getPosts() -> AnyPublisher<[Post], Error> {
 
 /// We assign it to canellable so can hold on to the publisher
 let cancellable = getPosts().sink(receiveCompletion: { _ in }, receiveValue: { print($0) })
-
+```
 
