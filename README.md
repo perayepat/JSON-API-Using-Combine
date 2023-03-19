@@ -6,7 +6,7 @@ how to to consume json data using combine
 
 This example code will return a string of the post data
 
-```
+```swift
 struct Post: Codable{
     let title: String
     let body: String
